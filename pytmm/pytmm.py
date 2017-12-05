@@ -20,14 +20,9 @@ class LayeredSystem:
         self.layers.insert(0, layer)
 
     def get_all_kx(self, omega, kx, ky):
-        z = self.material.get_z(omega, self.rho)
-        kx_list = []
-        for layer in self.layers:
-            next_z = layer.material.get_z(omega, self.rho)
-            kx_list.append(np.sqrt((kx**2 + ky**2)*next_z/z - ky**2))
-            kx = kx_list[-1]
-            z = next_z
-        return kx_list
+        square_k = (kx**2 + ky**2)/self.material.get_z(omega, self.rho)
+        return [np.sqrt(square_k*layer.material.get_z(omega, self.rho) - ky**2)
+                for layer in self.layers]
 
     def get_amplitudes(self, pressure, velocity, omega, kx):
         a = (velocity * self.material.get_z(omega, self.rho) *
