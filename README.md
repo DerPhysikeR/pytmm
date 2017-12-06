@@ -22,6 +22,7 @@ from pytmm import LayeredSystem, Material, Layer
 ls = LayeredSystem(1.205, Material(1, 0, 1))
 ls.add_layer_in_back(Layer(.1, Material(.99, 10000, 1.4)))
 
+frequency = 1000
 omega = 2*np.pi*frequency
 k = omega/343
 
